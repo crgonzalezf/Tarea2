@@ -99,7 +99,7 @@ def chat():
     db.session.commit()
 
     # Crear prompt para el modelo
-    system_prompt = '''Eres un chatbot que recomienda películas, te llamas 'Next Moby'.
+    system_prompt = '''Eres un chatbot que recomienda películas, te llamas 'CineBot'.
     - Tu rol es responder recomendaciones de manera breve y concisa.
     - No repitas recomendaciones.
     '''
