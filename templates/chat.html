@@ -10,7 +10,7 @@
     {% include 'navbar.html' %}
 
     <div class="container col-xxl-8 py-5">
-        <div id="messages">
+        <div id="messages" class="chat-container">
         {% for message in messages %}
             {% if message.author == 'assistant' %}
                 <div class="d-flex flex-row justify-content-start mb-4">
@@ -27,6 +27,13 @@
               </div>
             {% endif %}
         {% endfor %}
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-3">
+            <!-- Botón Borrar historial -->
+            <button id="clear-history" class="btn btn-warning btn-lg px-4 me-md-2" style="background-color: #FFD700; color: #1C3E78; border: 2px solid #1C3E78; font-weight: bold;">
+                <i class="fas fa-trash-alt" style="margin-right: 10px;"></i> Borrar historial
+            </button>
         </div>
 
         <form method="POST">
@@ -48,4 +55,19 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script>
+        // Función para limpiar el historial del chat
+        document.addEventListener("DOMContentLoaded", function () {
+            const clearHistoryButton = document.getElementById("clear-history");
+
+            if (clearHistoryButton) {
+                clearHistoryButton.addEventListener("click", function () {
+                    const chatContainer = document.querySelector(".chat-container"); // Selector del historial de chat
+                    if (chatContainer) {
+                        chatContainer.innerHTML = ""; // Limpia el contenido del historial
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}
