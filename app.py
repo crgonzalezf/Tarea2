@@ -14,7 +14,7 @@ from flask_bcrypt import Bcrypt
 from flask import redirect, url_for
 from langsmith.wrappers import wrap_openai
 
-load_dotenv()ss
+load_dotenv()
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'
