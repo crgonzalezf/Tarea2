@@ -21,7 +21,7 @@ login_manager.login_view = 'login'
 login_manager.login_message = 'Inicia sesión para continuar'
 client = wrap_openai(OpenAI())
 app = Flask(__name__)
-app.secret_key = getenv('SECRET_KEY')
+app.secret_key = getenv('SECRET_KEY','valor_por_defecto_super_secreto')
 bootstrap = Bootstrap5(app)
 csrf = CSRFProtect(app)
 login_manager.init_app(app)
