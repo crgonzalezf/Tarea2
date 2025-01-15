@@ -7,8 +7,87 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         {% block styles %}
-            <!-- Bootstrap CSS -->
-            {{ bootstrap.load_css() }}
+        <!-- Estilo -->
+        <style>
+            /* Fondo general */
+            body {
+                background-color: #1C3E78; /* Azul oscuro */
+                color: #FFFFFF; /* Texto blanco */
+                font-family: Arial, sans-serif;
+            }
+
+            /* Títulos */
+            h1, h2, h3 {
+                color: #FFD700; /* Amarillo vibrante */
+                text-align: center;
+            }
+
+            /* Botones principales */
+            button, .btn {
+                background-color: #FFD700; /* Amarillo */
+                color: #1C3E78; /* Azul oscuro */
+                border: 2px solid #1C3E78; /* Borde azul oscuro */
+                padding: 10px 20px;
+                margin: 5px;
+                font-size: 16px;
+                font-weight: bold;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            button:hover, .btn:hover {
+                background-color: #FFC300; /* Amarillo más oscuro */
+                color: #FFFFFF; /* Texto blanco */
+            }
+
+            /* Entrada de texto */
+            input[type="text"] {
+                background-color: #FFFFFF; /* Blanco */
+                color: #1C3E78; /* Azul oscuro */
+                border: 2px solid #FFD700; /* Amarillo */
+                padding: 10px;
+                width: 70%;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+
+            /* Botón de enviar */
+            input[type="submit"], input[type="button"] {
+                background-color: #FFD700; /* Amarillo */
+                color: #1C3E78; /* Azul oscuro */
+                border: 2px solid #1C3E78; /* Azul oscuro */
+                padding: 10px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            input[type="submit"]:hover, input[type="button"]:hover {
+                background-color: #FFC300; /* Amarillo más oscuro */
+                color: #FFFFFF; /* Texto blanco */
+            }
+
+            /* Barra de navegación */
+            .navbar {
+                background-color: #1C3E78; /* Azul oscuro */
+                border-bottom: 3px solid #FFD700; /* Línea amarilla */
+                padding: 10px;
+                text-align: center;
+            }
+
+            .navbar a {
+                color: #FFD700; /* Amarillo */
+                text-decoration: none;
+                margin: 0 15px;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .navbar a:hover {
+                color: #FFC300; /* Amarillo más oscuro */
+            }
+        </style>
+        {{ bootstrap.load_css() }}
         {% endblock %}
 
         <title>{% block title %}Next Muby{% endblock %}</title>
@@ -19,8 +98,9 @@
         {% block content %}{% endblock %}
 
         {% block scripts %}
-            <!-- Optional JavaScript -->
-            {{ bootstrap.load_js() }}
+        <!-- Optional JavaScript -->
+        {{ bootstrap.load_js() }}
         {% endblock %}
     </body>
 </html>
+
