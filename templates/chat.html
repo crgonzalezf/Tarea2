@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Next Muby (BETA)
+ 🤖 CineBot
 {% endblock %}
 
 {% from 'bootstrap5/nav.html' import render_nav_item %}
@@ -14,9 +14,9 @@
         {% for message in messages %}
             {% if message.author == 'assistant' %}
                 <div class="d-flex flex-row justify-content-start mb-4">
-                    <img class="bg-white" src="{{ url_for('static', filename='muby.png') }}" alt="avatar 1" style="width: 45px; height: 100%;">
-                    <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
-                        <p class="mb-0">{{message.content}}</p>
+                    <img class="rounded-circle" src="{{ url_for('static', filename='cinebot.png') }}" alt="avatar 1" style="width: 50px; height: 50px;">
+                     <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237, .2);">
+                            <p class="small mb-0 text-white">{{ message.content }}</p>
                     </div>
                 </div>
             {% else %}
@@ -33,15 +33,15 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="mb-3">
                 <span>Acciones rápidas:</span>
-                <input type="submit" class="btn btn-sm btn-outline-light" name="message" value="Recomiéndame una de terror"/>
-                <input type="submit" class="btn btn-sm btn-outline-light" name="message" value="Recomiéndame una de acción"/>
-                <input type="submit" class="btn btn-sm btn-outline-light" name="message" value="Recomiéndame una comedia"/>
+                <input type="submit" class="btn btn-sm btn-outline-light" name="message" value="Recomiéndame una de Suspenso"/>
+                <input type="submit" class="btn btn-sm btn-outline-light" name="message" value="Recomiéndame Documentales"/>
+                <input type="submit" class="btn btn-sm btn-outline-light" name="message" value="Recomiéndame una de Drama"/>
             </div>
         </form>
         <form method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="input-group mb-3">
-                <input id="message" name="message" required="required" class="form-control form-control-lg" placeholder="Enviar mensaje a Muby" aria-label="Tu mensaje" aria-describedby="send-message"/>
+                <input id="message" name="message" required="required" class="form-control form-control-lg" placeholder="Enviar mensaje a CineBot" aria-label="Tu mensaje" aria-describedby="send-message"/>
                 <input type="submit" class="btn btn-primary btn-lg disabled" id="send-message" name="intent" value="Enviar"/>
             </div>
         </form>
