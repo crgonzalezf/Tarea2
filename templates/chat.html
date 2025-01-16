@@ -10,6 +10,27 @@
     {% include 'navbar.html' %}
 
     <div class="container col-xxl-8 py-5">
+        <!-- Acciones rápidas arriba -->
+        <div class="mb-3 d-flex gap-2 align-items-center">
+            <span>Acciones rápidas:</span>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="message" value="Recomiéndame una de terror"/>
+                <button type="submit" class="btn btn-sm" style="background-color: #FFD700; color: #1C3E78; border: 2px solid #1C3E78; font-weight: bold;">Recomiéndame una de Suspenso</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="message" value="Recomiéndame una de acción"/>
+                <button type="submit" class="btn btn-sm" style="background-color: #FFD700; color: #1C3E78; border: 2px solid #1C3E78; font-weight: bold;">Recomiéndame una de Drama</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="message" value="Recomiéndame una comedia"/>
+                <button type="submit" class="btn btn-sm" style="background-color: #FFD700; color: #1C3E78; border: 2px solid #1C3E78; font-weight: bold;">Recomiéndame Documentales</button>
+            </form>
+        </div>
+
+        <!-- Mensajes -->
         <div id="messages">
         {% for message in messages %}
             {% if message.author == 'assistant' %}
@@ -29,24 +50,6 @@
         {% endfor %}
         </div>
 
-        <div class="mb-3 d-flex gap-2 align-items-center">
-            <span>Acciones rápidas:</span>
-            <form method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="hidden" name="message" value="Recomiéndame una de terror"/>
-                <button type="submit" class="btn btn-sm" style="background-color: #FFD700; color: #1C3E78; border: 2px solid #1C3E78; font-weight: bold;">Recomiéndame una de Suspenso</button>
-            </form>
-            <form method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="hidden" name="message" value="Recomiéndame una de acción"/>
-                <button type="submit" class="btn btn-sm" style="background-color: #FFD700; color: #1C3E78; border: 2px solid #1C3E78; font-weight: bold;">Recomiéndame una de Drama</button>
-            </form>
-            <form method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="hidden" name="message" value="Recomiéndame una comedia"/>
-                <button type="submit" class="btn btn-sm" style="background-color: #FFD700; color: #1C3E78; border: 2px solid #1C3E78; font-weight: bold;">Recomiéndame Documentales</button>
-            </form>
-        </div>
         <form method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="input-group mb-3">
@@ -58,3 +61,4 @@
 
     <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 {% endblock %}
+
