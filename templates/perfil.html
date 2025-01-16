@@ -11,6 +11,32 @@
 
     <div class="container col-xxl-8 py-5">
         <h1 class="mb-4">Tu perfil</h1>
+
+        <!-- Formulario del perfil -->
         {{ render_form(form) }}
+
+        <!-- Mensaje -->
+        <div id="success-message" style="display: none;" class="alert alert-success mt-3">
+            🎉 Perfil actualizado correctamente. 🎉
+        </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form"); 
+            form.addEventListener("submit", function(event) {
+                event.preventDefault(); 
+
+                
+                const messageDiv = document.getElementById("success-message");
+                messageDiv.style.display = "block";
+
+                
+                setTimeout(() => {
+                    messageDiv.style.display = "none";
+                }, 3000);
+                
+            });
+        });
+    </script>
 {% endblock %}
