@@ -11,15 +11,12 @@ def build_prompt(user: User, context: str):
 
     # Incluir preferencias del usuario
     if user.favorite_genre:
-        system_prompt += f'- El género favorito del usuario es: {user.favorite_genre}.
-'
+        system_prompt += f'- El género favorito del usuario es: {user.favorite_genre}.\n'
     if user.disliked_genre:
-        system_prompt += f'- El género a evitar del usuario es: {user.disliked_genre}.
-'
+        system_prompt += f'- El género a evitar del usuario es: {user.disliked_genre}.\n'
 
     if context:
-        system_prompt += f'Además considera el siguiente contenido: {context}
-'
+        system_prompt += f'Además considera el siguiente contenido: {context}\n'
 
     return system_prompt
 
