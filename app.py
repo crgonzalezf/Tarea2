@@ -8,7 +8,7 @@ from forms import ProfileForm, SignUpForm, LoginForm
 from flask_wtf.csrf import CSRFProtect
 from os import getenv
 import json
-from bot import search_movie_or_tv_show, where_to_watch, get_upcoming_movies_response
+from bot import search_movie_or_tv_show, where_to_watch, get_upcoming_movies_response, get_movie_trailer_response
 from flask_login import LoginManager, login_required, login_user, current_user, logout_user
 from flask_bcrypt import Bcrypt
 from flask import redirect, url_for
@@ -21,16 +21,18 @@ login_manager.login_view = 'login'
 login_manager.login_message = 'Inicia sesión para continuar'
 client = wrap_openai(OpenAI())
 app = Flask(__name__)
-app.secret_key = getenv('SECRET_KEY','valor_por_defecto_super_secreto')
+app.secret_key = getenv('SECRET_KEY', 'valor_por_defecto_super_secreto')
 bootstrap = Bootstrap5(app)
 csrf = CSRFProtect(app)
 login_manager.init_app(app)
 bcrypt = Bcrypt(app)
 db_config(app)
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 tools = [
     {
@@ -72,12 +74,47 @@ tools = [
                 "additionalProperties": False
             }
         },
+    },
+    {
+        'type': 'function',
+        'function': {
+            "name": "get_upcoming_movies",
+            "description": "Returns a list of upcoming movies with release dates.",
+            "parameters": {
+                "type": "object",
+                "required": [],
+                "properties": {},
+                "additionalProperties": False
+            }
+        },
+    },
+    {
+        'type': 'function',
+        'function': {
+            "name": "get_movie_trailer",
+            "description": "Returns a YouTube link for the trailer of a specified movie.",
+            "parameters": {
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the movie to find the trailer for"
+                    }
+                },
+                "additionalProperties": False
+            }
+        },
     }
 ]
+
 
 @app.route('/')
 def index():
     return render_template('landing.html')
+
 
 @app.route('/chat', methods=['GET', 'POST'])
 @login_required
@@ -94,7 +131,7 @@ def chat():
     db.session.commit()
 
     # Crear prompt para el modelo
-    system_prompt = '''Eres un chatbot que recomienda películas, te llamas 'Next Moby'.
+    system_prompt = '''Eres un chatbot que recomienda películas, te llamas 'CineBot'.
     - Tu rol es responder recomendaciones de manera breve y concisa.
     - No repitas recomendaciones.
     '''
@@ -133,6 +170,10 @@ def chat():
             model_recommendation = search_movie_or_tv_show(client, name, user)
         elif tool_call.function.name == 'get_upcoming_movies':
             model_recommendation = get_upcoming_movies_response(client, user)
+        elif tool_call.function.name == 'get_movie_trailer':
+            arguments = json.loads(tool_call.function.arguments)
+            name = arguments['name']
+            model_recommendation = get_movie_trailer_response(client, name, user)
     else:
         model_recommendation = chat_completion.choices[0].message.content
 
@@ -148,6 +189,7 @@ def chat():
         })
 
     return render_template('chat.html', messages=user.messages)
+
 
 @app.route('/perfil', methods=['GET', 'POST'])
 @login_required
@@ -165,6 +207,7 @@ def perfil():
 
     return render_template('perfil.html', form=form)
 
+
 @app.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     form = SignUpForm()
@@ -178,6 +221,7 @@ def sign_up():
             login_user(user)
             return redirect(url_for('chat'))
     return render_template('sign-up.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -195,6 +239,7 @@ def login():
             flash("El correo o la contraseña es incorrecta.", "error")
 
     return render_template('log-in.html', form=form)
+
 
 @app.get('/logout')
 def logout():
