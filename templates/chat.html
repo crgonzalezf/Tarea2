@@ -10,7 +10,7 @@
     {% include 'navbar.html' %}
 
     <div class="container col-xxl-8 py-5">
-        <!-- Acciones rápidas arriba -->
+        
         <div class="mb-3 d-flex gap-2 align-items-center">
             <span>Acciones rápidas:</span>
             <form method="post">
@@ -30,7 +30,6 @@
             </form>
         </div>
 
-        <!-- Mensajes -->
         <div id="messages">
         {% for message in messages %}
             {% if message.author == 'assistant' %}
