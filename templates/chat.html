@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
- 🤖 CineBot
+    🤖 CineBot
 {% endblock %}
 
 {% from 'bootstrap5/nav.html' import render_nav_item %}
@@ -10,12 +10,12 @@
     {% include 'navbar.html' %}
 
     <div class="container col-xxl-8 py-5">
-        <div id="messages" class="chat-container">
+        <div id="messages">
         {% for message in messages %}
             {% if message.author == 'assistant' %}
-                <div class="d-flex flex-row justify-content-start mb-4">
-                    <img class="rounded-circle" src="{{ url_for('static', filename='cinebot.png') }}" alt="avatar 1" style="width: 50px; height: 50px;">
-                     <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237, .2);">
+               <div class="d-flex flex-row justify-content-start mb-4">
+                        <img class="rounded-circle" src="{{ url_for('static', filename='cinebot.png') }}" alt="avatar 1" style="width: 50px; height: 50px;">
+                        <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237, .2);">
                             <p class="small mb-0 text-white">{{ message.content }}</p>
                     </div>
                 </div>
@@ -29,22 +29,24 @@
         {% endfor %}
         </div>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-3">
-            <!-- Botón Borrar historial -->
-            <button id="clear-history" class="btn btn-warning btn-lg px-4 me-md-2" style="background-color: #FFD700; color: #1C3E78; border: 2px solid #1C3E78; font-weight: bold;">
-                <i class="fas fa-trash-alt" style="margin-right: 10px;"></i> Borrar historial
-            </button>
+        <div class="mb-3 d-flex gap-2 align-items-center">
+            <span>Acciones rápidas:</span>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="message" value="Recomiéndame una de terror"/>
+                <button type="submit" class="btn btn-sm btn-outline-light">Recomiéndame una de terror</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="message" value="Recomiéndame una de acción"/>
+                <button type="submit" class="btn btn-sm btn-outline-light">Recomiéndame una de acción</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="message" value="Recomiéndame una comedia"/>
+                <button type="submit" class="btn btn-sm btn-outline-light">Recomiéndame una comedia</button>
+            </form>
         </div>
-
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <div class="mb-3">
-                <span>Acciones rápidas:</span>
-                <input type="submit" class="btn btn-sm btn-outline-light" name="message" value="Recomiéndame una de Suspenso"/>
-                <input type="submit" class="btn btn-sm btn-outline-light" name="message" value="Recomiéndame Documentales"/>
-                <input type="submit" class="btn btn-sm btn-outline-light" name="message" value="Recomiéndame una de Drama"/>
-            </div>
-        </form>
         <form method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="input-group mb-3">
@@ -55,19 +57,4 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
-    <script>
-        // Función para limpiar el historial del chat
-        document.addEventListener("DOMContentLoaded", function () {
-            const clearHistoryButton = document.getElementById("clear-history");
-
-            if (clearHistoryButton) {
-                clearHistoryButton.addEventListener("click", function () {
-                    const chatContainer = document.querySelector(".chat-container"); // Selector del historial de chat
-                    if (chatContainer) {
-                        chatContainer.innerHTML = ""; // Limpia el contenido del historial
-                    }
-                });
-            }
-        });
-    </script>
 {% endblock %}
