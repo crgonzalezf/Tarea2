@@ -62,9 +62,7 @@ def get_upcoming_movies():
     return movies
 
 def get_movie_trailer(movie_title):
-    """
-    Busca un enlace a un tráiler en YouTube basado en el título de la película.
-    """
+    
     logging.info(f"Buscando tráiler para: {movie_title}")
     search_query = f"{movie_title} tráiler oficial"
     youtube_base_url = "https://www.youtube.com/results"
