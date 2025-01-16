@@ -94,17 +94,16 @@ def chat():
     db.session.commit()
 
     # Crear prompt para el modelo
-    system_prompt = '''Eres un chatbot que recomienda películas, te llamas 'CineBot'.
+    system_prompt = '''Eres un chatbot que recomienda películas, te llamas 'Next Moby'.
     - Tu rol es responder recomendaciones de manera breve y concisa.
     - No repitas recomendaciones.
     '''
 
     # Incluir preferencias del usuario
     if user.favorite_genre:
-    system_prompt += f'- El género favorito del usuario es: {user.favorite_genre}.\n'
-    
+        system_prompt += f'- El género favorito del usuario es: {user.favorite_genre}.\n'
     if user.disliked_genre:
-    system_prompt += f'- El género a evitar del usuario es: {user.disliked_genre}.\n'
+        system_prompt += f'- El género a evitar del usuario es: {user.disliked_genre}.\n'
 
     messages_for_llm = [{"role": "system", "content": system_prompt}]
 
