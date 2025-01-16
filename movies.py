@@ -3,10 +3,14 @@ import tmdbsimple as tmdb
 from dotenv import load_dotenv
 from os import getenv
 from datetime import datetime, timedelta
+import requests
+import logging
 
 load_dotenv()
 tmdb.API_KEY = getenv('TMDB_API_KEY')
 tmdb.ACCESS_TOKEN = getenv('TMDB_ACCESS_TOKEN')
+
+logging.basicConfig(level=logging.INFO)
 
 def search(movie_name):
     search = tmdb.Search()
@@ -56,4 +60,23 @@ def get_upcoming_movies():
         for movie in response["results"]
     ]
     return movies
+
+def get_movie_trailer(movie_title):
+    """
+    Busca un enlace a un tráiler en YouTube basado en el título de la película.
+    """
+    logging.info(f"Buscando tráiler para: {movie_title}")
+    search_query = f"{movie_title} tráiler oficial"
+    youtube_base_url = "https://www.youtube.com/results"
+    params = {"search_query": search_query}
+
+    response = requests.get(youtube_base_url, params=params)
+    if response.status_code != 200:
+        logging.error(f"Error al buscar tráiler en YouTube: {response.status_code}")
+        return None
+
+    # Generar un enlace directo de búsqueda en YouTube
+    youtube_link = f"https://www.youtube.com/results?search_query={movie_title.replace(' ', '+')}+tráiler+oficial"
+    return youtube_link
+
 
