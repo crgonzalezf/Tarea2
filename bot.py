@@ -2,6 +2,7 @@ from movies import search, search_platforms, get_upcoming_movies
 from openai import OpenAI
 from models import User
 from langsmith import traceable
+from movies import get_movie_trailer
 
 def build_prompt(user: User, context: str):
     system_prompt = '''Eres un chatbot que recomienda películas, te llamas 'CineBot'.
@@ -20,6 +21,17 @@ def build_prompt(user: User, context: str):
 
     return system_prompt
 
+@traceable(run_type="tool", name="get_movie_trailer")
+def get_movie_trailer_response(client, movie_title, user):
+    """
+    Genera una respuesta con el enlace al tráiler de una película.
+    """
+    trailer_link = get_movie_trailer(movie_title)
+
+    if not trailer_link:
+        return f"Lo siento, no pude encontrar un tráiler para {movie_title}. Intenta buscarlo manualmente en YouTube."
+
+    return f"Puedo ayudarte con esto. Aquí tienes el tráiler de '{movie_title}': {trailer_link}"
 
 @traceable(run_type="tool", name="where_to_watch")
 def where_to_watch(client: OpenAI, search_term: str, user: User):
