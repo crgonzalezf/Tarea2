@@ -30,11 +30,6 @@
             </form>
         </div>
 
-        <!-- Botón para borrar historial -->
-        <div class="mt-3">
-            <button id="clear-history" class="btn btn-danger btn-lg" style="font-weight: bold;">Borrar historial</button>
-        </div>
-
         <div id="messages">
         {% for message in messages %}
             {% if message.author == 'assistant' %}
@@ -63,17 +58,5 @@
         </form>
     </div>
 
-    <!-- Script para borrar historial -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const clearHistoryButton = document.getElementById("clear-history");
-            const messagesContainer = document.getElementById("messages");
-
-            clearHistoryButton.addEventListener("click", function () {
-                if (messagesContainer) {
-                    messagesContainer.innerHTML = ""; // Limpia el historial de mensajes en la pantalla
-                }
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 {% endblock %}
