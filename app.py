@@ -8,7 +8,7 @@ from forms import ProfileForm, SignUpForm, LoginForm
 from flask_wtf.csrf import CSRFProtect
 from os import getenv
 import json
-from bot import search_movie_or_tv_show, where_to_watch
+from bot import search_movie_or_tv_show, where_to_watch, get_upcoming_movies_response
 from flask_login import LoginManager, login_required, login_user, current_user, logout_user
 from flask_bcrypt import Bcrypt
 from flask import redirect, url_for
@@ -28,12 +28,9 @@ login_manager.init_app(app)
 bcrypt = Bcrypt(app)
 db_config(app)
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
 
 tools = [
     {
@@ -78,11 +75,9 @@ tools = [
     }
 ]
 
-
 @app.route('/')
 def index():
     return render_template('landing.html')
-
 
 @app.route('/chat', methods=['GET', 'POST'])
 @login_required
@@ -106,9 +101,11 @@ def chat():
 
     # Incluir preferencias del usuario
     if user.favorite_genre:
-        system_prompt += f'- El género favorito del usuario es: {user.favorite_genre}.\n'
+        system_prompt += f'- El género favorito del usuario es: {user.favorite_genre}.
+'
     if user.disliked_genre:
-        system_prompt += f'- El género a evitar del usuario es: {user.disliked_genre}.\n'
+        system_prompt += f'- El género a evitar del usuario es: {user.disliked_genre}.
+'
 
     messages_for_llm = [{"role": "system", "content": system_prompt}]
 
@@ -136,6 +133,8 @@ def chat():
             arguments = json.loads(tool_call.function.arguments)
             name = arguments['name']
             model_recommendation = search_movie_or_tv_show(client, name, user)
+        elif tool_call.function.name == 'get_upcoming_movies':
+            model_recommendation = get_upcoming_movies_response(client, user)
     else:
         model_recommendation = chat_completion.choices[0].message.content
 
@@ -151,7 +150,6 @@ def chat():
         })
 
     return render_template('chat.html', messages=user.messages)
-
 
 @app.route('/perfil', methods=['GET', 'POST'])
 @login_required
@@ -169,7 +167,6 @@ def perfil():
 
     return render_template('perfil.html', form=form)
 
-
 @app.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     form = SignUpForm()
@@ -183,7 +180,6 @@ def sign_up():
             login_user(user)
             return redirect(url_for('chat'))
     return render_template('sign-up.html', form=form)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -201,7 +197,6 @@ def login():
             flash("El correo o la contraseña es incorrecta.", "error")
 
     return render_template('log-in.html', form=form)
-
 
 @app.get('/logout')
 def logout():
