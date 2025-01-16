@@ -5,7 +5,7 @@ from os import getenv
 
 load_dotenv()
 tmdb.API_KEY = getenv('TMDB_API_KEY')
-
+tmdb.ACCESS_TOKEN = getenv('TMDB_ACCESS_TOKEN')
 
 def search(movie_name):
     search = tmdb.Search()
