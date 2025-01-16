@@ -195,17 +195,20 @@ def chat():
 @login_required
 def perfil():
     user = db.session.query(User).get(current_user.id)
+    form = ProfileForm(obj=user)  # Prellenar el formulario con los datos actuales del usuario
 
-    if request.method == 'POST':
-        form = ProfileForm()
-        if form.validate_on_submit():
-            user.favorite_genre = form.favorite_genre.data
-            user.disliked_genre = form.disliked_genre.data
-            db.session.commit()
-    else:
-        form = ProfileForm(obj=user)
-
+    if request.method == 'POST' and form.validate_on_submit():
+        # Actualizar los datos del usuario
+        user.favorite_genre = form.favorite_genre.data
+        user.disliked_genre = form.disliked_genre.data
+        db.session.commit()  # Guardar cambios en la base de datos
+        
+        # Mostrar mensaje de éxito
+        flash('🎉 Perfil actualizado correctamente. 🎉', 'success')
+        return redirect(url_for('perfil'))  # Redireccionar para evitar el reenvío del formulario
+    
     return render_template('perfil.html', form=form)
+
 
 
 @app.route('/sign-up', methods=['GET', 'POST'])
