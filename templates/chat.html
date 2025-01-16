@@ -10,6 +10,7 @@
     {% include 'navbar.html' %}
 
     <div class="container col-lg-6 col-md-8 py-5">
+
         <div class="mb-3 d-flex gap-2 align-items-center">
             <span>Acciones rápidas:</span>
             <form method="post">
@@ -27,12 +28,12 @@
                 <input type="hidden" name="message" value="Recomiéndame Documentales"/>
                 <button type="submit" class="btn btn-sm" style="background-color: #FFD700; color: #1C3E78; border: 2px solid #1C3E78; font-weight: bold;">Recomiéndame Documentales</button>
             </form>
-         </div>
+        </div>
 
         <div id="messages">
         {% for message in messages %}
             {% if message.author == 'assistant' %}
-               <div class="d-flex flex-row justify-content-start mb-4">
+                <div class="d-flex flex-row justify-content-start mb-4">
                     <img class="rounded-circle avatar-cinebot" src="{{ url_for('static', filename='cinebot.png') }}" alt="avatar 1">
                     <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237, .2);">
                         <p class="small mb-0 text-white">{{ message.content }}</p>
@@ -41,9 +42,9 @@
             {% else %}
                 <div class="d-flex flex-row justify-content-end mb-4">
                     <div class="p-3 me-3 border bg-body-tertiary" style="border-radius: 15px;">
-                        <p class="mb-0">{{message.content}}</p>
+                        <p class="mb-0">{{ message.content }}</p>
                     </div>
-              </div>
+                </div>
             {% endif %}
         {% endfor %}
         </div>
@@ -59,5 +60,6 @@
 
     <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 {% endblock %}
+
 
 
