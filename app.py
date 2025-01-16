@@ -101,11 +101,10 @@ def chat():
 
     # Incluir preferencias del usuario
     if user.favorite_genre:
-        system_prompt += f'- El género favorito del usuario es: {user.favorite_genre}.
-'
+    system_prompt += f'- El género favorito del usuario es: {user.favorite_genre}.\n'
+    
     if user.disliked_genre:
-        system_prompt += f'- El género a evitar del usuario es: {user.disliked_genre}.
-'
+    system_prompt += f'- El género a evitar del usuario es: {user.disliked_genre}.\n'
 
     messages_for_llm = [{"role": "system", "content": system_prompt}]
 
